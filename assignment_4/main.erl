@@ -1,10 +1,9 @@
 % Team: Tyler Yang, Fnu Chaitanya, Justin Su
--module(main).
+-module(hw4).
 -import(lists, [foldr/3]).
 -export([start/0]).
 -export([server1/0, server2/0, server3/0, server3/1]).
 -export([sum_integers/2, product_integers/2]).
-
 
 server1() -> 
     receive 
@@ -29,6 +28,7 @@ sum_integers(X, Acc) ->
     true -> 
         Acc 
     end.
+
 product_integers(X, Acc) -> 
     if is_number(X) -> 
         X * Acc;
@@ -43,9 +43,9 @@ server2() ->
             io:format("Server2: Working...~n"),
             case Work of 
                 [Head | _] when is_integer(Head) -> 
-                        io:format("Server2: ~w~n", [lists:foldr(fun sum_integers/2, 0, Work)]);
+                    io:format("Server2: ~w~n", [lists:foldr(fun sum_integers/2, 0, Work)]);
                 [Head | _] when is_float(Head) -> 
-                        io:format("Server2: ~w~n", [lists:foldr(fun product_integers/2, 1, Work)]);
+                    io:format("Server2: ~w~n", [lists:foldr(fun product_integers/2, 1, Work)]);
                 _ -> server3 ! Work
             end,
             server2()
@@ -53,15 +53,17 @@ server2() ->
 
 server3(FailCount) -> 
     receive 
-        halt -> io:format("Server3: Stopping...~n"), io:format("Total Non Handled Count: ~w~n", [FailCount]);
+        halt -> 
+            io:format("Server3: Stopping...~n"), 
+            io:format("Total Non Handled Count: ~w~n", [FailCount]);
         Work -> 
             io:format("Server3: Working...~n"),
             case Work of 
                 {error, Error} -> 
                     io:format("Server3: ~s~n", [Error]),
                     server3(FailCount);
-                {_, Error} -> 
-                    io:format("Server3: Not Handled, Error: ~s~n", [Error]),
+                _ -> 
+                    io:format("Server3: Not Handled, Error: ~s~n", [Work]),
                     server3(FailCount + 1)
             end
     end.
@@ -70,25 +72,25 @@ server3() ->
     server3(0).
 
 start() -> 
-    Pid1 = spawn(main, server1, []),
-    Pid2 = spawn(main, server2, []),
-    Pid3 = spawn(main, server3, []),
+    Pid1 = spawn(fun server1/0),
+    Pid2 = spawn(fun server2/0),
+    Pid3 = spawn(fun server3/0),
     register(server1, Pid1),
     register(server2, Pid2),
     register(server3, Pid3),
-    Pid1 ! {add, {1, 2}},
-    Pid1 ! {sub, {3, 4}},
-    Pid1 ! [1,2,3,4],
-    Pid1 ! {error, "Error!"},
-    Pid1 ! {unhandled, "unhandled"},
     main().
 
 get_numData() ->
     {ok, Work} = io:read("Enter a command: "),
-    Work.
+    case Work of
+        halt -> halt;  % Return 'halt'
+        _ -> Work
+    end.
 
 main() -> 
     case get_numData() of 
-        all_done -> server1 ! halt;
-        Work -> server1 ! Work, main()
+        halt -> server1 ! halt;
+        Work -> 
+            server1 ! Work, 
+            main()
     end.
