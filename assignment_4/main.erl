@@ -1,3 +1,4 @@
+% Team: Tyler Yang, Fnu Chaitanya, Justin Su
 -module(main).
 -import(lists, [foldr/3]).
 -export([start/0]).
