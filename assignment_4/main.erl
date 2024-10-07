@@ -1,5 +1,4 @@
 % Team: Tyler Yang, Fnu Chaitanya, Justin Su
-% Team: Tyler Yang, Fnu Chaitanya, Justin Su
 -module(main).
 -import(lists, [foldr/3]).
 -export([start/0]).
@@ -14,8 +13,8 @@ server1() ->
         Work -> 
             io:format("Server1: Working...~n"),
             case Work of
-                {add, {X, Y}} -> io:format("Server1: ~w + ~w = ~w~n", [X, Y, X + Y]);
-                {sub, {X, Y}} -> io:format("Server1: ~w - ~w = ~w~n", [X, Y, X - Y]);
+                {'add', {X, Y}} -> io:format("Server1: ~w + ~w = ~w~n", [X, Y, X + Y]);
+                {'sub', {X, Y}} -> io:format("Server1: ~w - ~w = ~w~n", [X, Y, X - Y]);
                 {mult, {X, Y}} -> io:format("Server1: ~w * ~w = ~w~n", [X, Y, X * Y]);
                 {'div', {X, Y}} -> 
                     if Y =:= 0 -> 
@@ -23,8 +22,8 @@ server1() ->
                     true -> 
                         io:format("Server1: ~w / ~w = ~w~n", [X, Y, X / Y])
                     end;
-                {sqrt, X} -> io:format("Server1: sqrt(~w) = ~w~n", [X, math:sqrt(X)]);
-                {neg, X} -> io:format("Server1: -(~w) = ~w~n", [X, X * -1]);
+                {'sqrt', X} -> io:format("Server1: sqrt(~w) = ~w~n", [X, math:sqrt(X)]);
+                {'neg', X} -> io:format("Server1: -(~w) = ~w~n", [X, X * -1]);
                 _ -> 
                     server2 ! Work
             end,
