@@ -1,4 +1,5 @@
 % Team: Tyler Yang, Fnu Chaitanya, Justin Su
+% Team: Tyler Yang, Fnu Chaitanya, Justin Su
 -module(main).
 -import(lists, [foldr/3]).
 -export([start/0]).
@@ -91,13 +92,14 @@ start() ->
 get_numData() ->
     {ok, Work} = io:read("Enter a command: "),
     case Work of
-        halt -> halt;  % Return 'halt'
-        _ -> Work
+        halt -> server1 ! halt;  
+        _ -> Work  % Otherwise return the input
     end.
 
 main() -> 
     case get_numData() of 
-        halt -> server1 ! halt;
+	  all_done -> 
+		 ok;
         Work -> 
             server1 ! Work, 
             main()
