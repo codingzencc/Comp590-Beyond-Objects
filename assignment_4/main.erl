@@ -1,5 +1,5 @@
 % Team: Tyler Yang, Fnu Chaitanya, Justin Su
--module(hw4).
+-module(main).
 -import(lists, [foldr/3]).
 -export([start/0]).
 -export([server1/0, server2/0, server3/0, server3/1]).
