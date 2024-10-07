@@ -7,17 +7,25 @@
 
 server1() -> 
     receive 
-        halt -> io:format("Server1: Stopping...~n"), server2 ! halt;
+        halt -> 
+            io:format("Server1: Stopping...~n"), 
+            server2 ! halt;
         Work -> 
             io:format("Server1: Working...~n"),
             case Work of
-                {add, {X, Y}} -> io:format("Server1: ~w~n", [X + Y]);
-                {sub, {X, Y}} -> io:format("Server1: ~w~n", [X - Y]);
-                {mult, {X, Y}} -> io:format("Server1: ~w~n", [X * Y]);
-                {'div', {X, Y}} -> io:format("Server1: ~w~n", [X / Y]);
-                {sqrt, X} -> io:format("Server1: ~w~n", [math:sqrt(X)]);
-                {neg, X} -> io:format("Server1: ~w~n", [X * -1]);
-                _ -> server2 ! Work
+                {add, {X, Y}} -> io:format("Server1: ~w + ~w = ~w~n", [X, Y, X + Y]);
+                {sub, {X, Y}} -> io:format("Server1: ~w - ~w = ~w~n", [X, Y, X - Y]);
+                {mult, {X, Y}} -> io:format("Server1: ~w * ~w = ~w~n", [X, Y, X * Y]);
+                {'div', {X, Y}} -> 
+                    if Y =:= 0 -> 
+                        io:format("Server1: Division by zero error~n");
+                    true -> 
+                        io:format("Server1: ~w / ~w = ~w~n", [X, Y, X / Y])
+                    end;
+                {sqrt, X} -> io:format("Server1: sqrt(~w) = ~w~n", [X, math:sqrt(X)]);
+                {neg, X} -> io:format("Server1: -(~w) = ~w~n", [X, X * -1]);
+                _ -> 
+                    server2 ! Work
             end,
             server1()
     end.
@@ -60,10 +68,10 @@ server3(FailCount) ->
             io:format("Server3: Working...~n"),
             case Work of 
                 {error, Error} -> 
-                    io:format("Server3: ~s~n", [Error]),
+                    io:format("Server3: Error: ~s~n", [Error]),
                     server3(FailCount);
                 _ -> 
-                    io:format("Server3: Not Handled, Error: ~s~n", [Work]),
+                    io:format("Server3: Not Handled: ~p~n", [Work]),
                     server3(FailCount + 1)
             end
     end.
