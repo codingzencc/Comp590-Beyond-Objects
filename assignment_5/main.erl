@@ -11,7 +11,7 @@ server1() ->
 	  % rick -> io:format("Server1: Never gonna give you up~n"), server1();
         update -> 
             io:format("Server1: Updating...~n"),
-            hw5:server1();
+            main:server1();
         Work -> 
             io:format("Server1: Working...~n"),
             case Work of
@@ -52,7 +52,7 @@ server2() ->
         halt -> io:format("Server2: Stopping...~n"), server3 ! halt;
         update -> 
             io:format("Server2: Updating...~n"),
-            hw5:server2();
+            main:server2();
         Work -> 
             io:format("Server2: Working...~n"),
             case Work of 
@@ -73,7 +73,7 @@ server3(FailCount) ->
             io:format("Total Non Handled Count: ~w~n", [FailCount]);
         update -> 
             io:format("Server3: Updating...~n"),
-            hw5:server3();  
+            main:server3(FailCount);  
         Work -> 
             io:format("Server3: Working...~n"),
             case Work of 
@@ -92,7 +92,7 @@ server3() ->
 start() -> 
     case whereis(server1) of
         undefined -> 
-            Pid1 = spawn(hw5, server1, []),
+            Pid1 = spawn(main, server1, []),
             register(server1, Pid1);
         _ -> 
             ok % Server1 already running
@@ -100,7 +100,7 @@ start() ->
 
     case whereis(server2) of
         undefined -> 
-            Pid2 = spawn(hw5, server2, []),
+            Pid2 = spawn(main, server2, []),
             register(server2, Pid2);
         _ -> 
             ok % Server2 already running
@@ -108,7 +108,7 @@ start() ->
 
     case whereis(server3) of
         undefined -> 
-            Pid3 = spawn(hw5, server3, []),
+            Pid3 = spawn(main, server3, []),
             register(server3, Pid3);
         _ -> 
             ok % Server3 already running
