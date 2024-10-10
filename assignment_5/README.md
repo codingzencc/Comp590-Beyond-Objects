@@ -1,7 +1,7 @@
 # Assignment 5: Hotswapping
 Team members: Tyler Yang, Justin Su, Fnu Chaitanya
 
-Example run:
+Example run (note that module name is hw5 in this example, just replace hw5 with main):
 
 ```erl
 1> c(hw5).
