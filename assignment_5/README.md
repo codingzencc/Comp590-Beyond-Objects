@@ -1,12 +1,16 @@
 # Assignment 5: Hotswapping
 Team members: Tyler Yang, Justin Su, Fnu Chaitanya
 
-Example run (note that module name is hw5 in this example, just replace hw5 with main):
+Example run:
 
 ```erl
-1> c(hw5).
-{ok,hw5}
-2> hw5:start().
+10> c(main).
+main.erl:4:2: Warning: export_all flag enabled - all functions will be exported
+%    4| -compile([export_all]).
+%     |  ^
+
+{ok,main}
+11> main:start().
 Enter a command: rick.
 Server1: Working...
 Server2: Working...
@@ -25,19 +29,22 @@ Server3: Not Handled: rick3
 Enter a command: all_done.
 ok
 ```
-
-Then change the original file (uncomment rick, rick2, rick3)
-
+Then change the original file (uncomment rick, rick2, rick3).
+After doing so recompile main and update server1 and server3.
 ```erl
-3> c(hw5).
-{ok,hw5}
-4> whereis(server1)!update.
+12> c(main).
+main.erl:4:2: Warning: export_all flag enabled - all functions will be exported
+%    4| -compile([export_all]).
+%     |  ^
+
+{ok,main}
+13> whereis(server1)!update.
 Server1: Updating...
 update
-5> whereis(server3)!update.
+14> whereis(server3)!update.
 Server3: Updating...
 update
-6> hw5:start().
+15> main:start().
 Enter a command: rick.
 Server1: Never gonna give you up
 Enter a command: rick2.
@@ -49,4 +56,12 @@ Enter a command: rick3.
 Server1: Working...
 Server2: Working...
 Server3: Never gonna run around and desert you
+Enter a command: halt.
+Server1: Stopping...
+Server2: Stopping...
+Server3: Stopping...
+Total Non Handled Count: 4
+Enter a command: all_done.
+ok
 ```
+
