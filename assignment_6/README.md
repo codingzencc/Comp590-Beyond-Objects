@@ -1,19 +1,31 @@
 # Assignment 6: Elixir
 Team members: Justin Su, Tyler Yang, Fnu Chaitanya
 
-Part A:
+Assignment 3:
 p1:
-
+```erl
+iex(4)> c("hw3p1.exs")
+[P1]
+iex(5)> P1.prog1()
+Enter a number: 0
+0
+:ok
+iex(6)> P1.prog1()
+Enter a number: 7
+1.4757731615945522
+:ok
+iex(7)> P1.prog1()
+Enter a number: -2
+128.0
+:ok
+iex(8)> P1.prog1()
+Enter a number: a
+not an integer
+:ok
+```
 p2:
 ```erl
-iex(2)> c "partA.exs"
-    warning: redefining module P2 (current version defined in memory)
-    │
-  1 │ defmodule P2 do
-    │ ~~~~~~~~~~~~~~~
-    │
-    └─ partA.exs:1: P2 (module)
-
+iex(2)> c "hw3p2.exs"
 Enter a number: 7
 1.4757731615945522
 Enter a number: -2
@@ -25,16 +37,9 @@ Exiting the program.
 [P2]
 ```
 
-Part B: The example is the same as the one given in HW5
+Assignment 5: The example is the same as the one given in HW5, but this time with elixir
 ```erl
-iex(31)> c "partB.exs"
-    warning: redefining module Main (current version defined in memory)
-    │
-  1 │ defmodule Main do
-    │ ~~~~~~~~~~~~~~~~~
-    │
-    └─ partB.exs:1: Main (module)
-
+iex(31)> c "hw5.exs"
 [Main]
 iex(33)> Main.start()
 Enter a command: :rick
@@ -51,15 +56,10 @@ Server2: Working...
 Server3: Not Handled: :rick3
 Enter a command: :all_done
 :ok
-# Uncomment ricks in partB.exs
-iex(34)> c "partB.exs"
-    warning: redefining module Main (current version defined in memory)
-    │
-  1 │ defmodule Main do
-    │ ~~~~~~~~~~~~~~~~~
-    │
-    └─ partB.exs:1: Main (module)
-
+```
+Then uncomment ricks in hw5.exs
+```erl
+iex(34)> c "hw5.exs"
 [Main]
 iex(35)> send(Process.whereis(:server1),:update)
 Server1: Updating...
