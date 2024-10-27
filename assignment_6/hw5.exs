@@ -1,6 +1,9 @@
 defmodule Main do
   def server1 do
     receive do
+      #:rick -> 
+	#IO.puts("pickle rick")
+	#Main.server1()
       :halt ->
         IO.puts("Server1: Stopping...")
         send(:server2, :halt)
@@ -45,6 +48,9 @@ defmodule Main do
 
   def server2 do
     receive do
+      #:rick2 ->
+	#IO.puts("prickle rick")
+	#Main.server2()
       :halt ->
         IO.puts("Server2: Stopping...")
         send(:server3, :halt)
@@ -66,6 +72,9 @@ defmodule Main do
 
   def server3(fail_count \\ 0) do
     receive do
+      #:rick3 ->
+	#IO.puts("pringle rick")
+	#Main.server3(fail_count)
       :halt ->
         IO.puts("Server3: Stopping...")
         IO.puts("Total Non Handled Count: #{fail_count}")
@@ -82,15 +91,24 @@ defmodule Main do
   end
 
   def start do
+  unless Process.whereis(:server1) do
     pid1 = spawn(__MODULE__, :server1, [])
     Process.register(pid1, :server1)
+  end
+
+  unless Process.whereis(:server2) do
     pid2 = spawn(__MODULE__, :server2, [])
     Process.register(pid2, :server2)
+  end
+
+  unless Process.whereis(:server3) do
     pid3 = spawn(__MODULE__, :server3, [])
     Process.register(pid3, :server3)
-
-    main()
   end
+
+  main()
+end
+
 
   def get_num_data do
     work = IO.gets("Enter a command: ") |> String.trim() |> Code.eval_string() |> elem(0)
@@ -109,5 +127,3 @@ defmodule Main do
     end
   end
 end
-
-Main.start()
