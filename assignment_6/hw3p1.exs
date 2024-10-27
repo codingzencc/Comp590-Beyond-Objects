@@ -1,3 +1,4 @@
+# Team members: Justin Su, Tyler Yang, Fnu Chaitanya
 defmodule P1 do
     def prog1 do
 	get_num_data()

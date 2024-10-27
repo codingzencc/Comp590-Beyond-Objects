@@ -1,3 +1,4 @@
+# Team members: Justin Su, Tyler Yang, Fnu Chaitanya
 defmodule Main do
   def server1 do
     receive do
