@@ -43,4 +43,5 @@ halt
 (serv1) Halting
 (serv2) Halting
 (serv3) Halting
-(serv3) Unprocessed messages count: 2```
+(serv3) Unprocessed messages count: 2
+```
