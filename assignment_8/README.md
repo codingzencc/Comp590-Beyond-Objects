@@ -1,4 +1,5 @@
 # Assignment 8
+Team members: Justin Su, Fnu Chaitanya
 
 The parsing for rust is a bit of a pain, so instead of entering a tuple in brackets, I decided to just parse with commas as the delimiter, meaning there is no need to include {} brackets. For array inputs, [] is still necessary.
 ```rust
